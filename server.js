@@ -30,16 +30,14 @@ var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
 app.get("/scrape", function(req, res) {
-  axios.get("http://www.echojs.com/").then(function(response) {
+  axios.get("https://www.ebaumsworld.com/").then(function(response) {
     var $ = cheerio.load(response.data);
-    $("article h2").each(function(i, element) {
+    $(".featureFeedDetails").each(function(i, element) {
       var result = {};
-      result.title = $(this)
-        .children("a")
-        .text();
-      result.link = $(this)
-        .children("a")
-        .attr("href");
+
+      result.title = $(this).find("h2").children("a").text().trim();
+      result.link = $(this).find("h2").children("a").attr("href")
+      result.img = $(this).find(".featureDescription").text().trim();
       db.Article.create(result)
         .then(function(dbArticle) {
           console.log(dbArticle);
