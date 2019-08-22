@@ -58,7 +58,7 @@ app.get("/", function(req, res) {
     var hbsObject = {
       article: dbArticle
     }
-    res.render(__dirname + "/views/index.handlebars");
+    res.render(__dirname + "/views/index.handlebars", hbsObject);
   }).catch(function(err){
     res.json(err);
   })
