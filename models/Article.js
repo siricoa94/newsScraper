@@ -6,7 +6,8 @@ var ArticleSchema = new Schema({
 
   title: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
 
   link: {
@@ -19,7 +20,7 @@ var ArticleSchema = new Schema({
 
   note: {
     type: Schema.Types.ObjectId,
-    ref: "Note"
+    ref: "Comment"
   }
 });
 
