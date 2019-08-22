@@ -1,3 +1,5 @@
+$(document).ready(function(){
+
 // Grab the articles as a json
 $.getJSON("/articles", function(data) {
   // For each one
@@ -22,7 +24,6 @@ $(document).on("click", "p", function() {
   })
     // With that done, add the Comment information to the page
     .then(function(data) {
-      console.log(data);
       // The title of the article
       $("#Comments").append("<h2>" + data.title + "</h2>");
       // An input to enter a new title
@@ -61,7 +62,6 @@ $(document).on("click", "#saveComment", function() {
     // With that done
     .then(function(data) {
       // Log the response
-      console.log(data);
       // Empty the Comments section
       $("#Comments").empty();
     });
@@ -69,4 +69,5 @@ $(document).on("click", "#saveComment", function() {
   // Also, remove the values entered in the input and textarea for Comment entry
   $("#titleinput").val("");
   $("#bodyinput").val("");
+});
 });
