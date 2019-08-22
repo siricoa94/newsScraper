@@ -1,4 +1,5 @@
 var express = require("express");
+
 var logger = require("morgan");
 var mongoose = require("mongoose");
 
@@ -7,9 +8,12 @@ var cheerio = require("cheerio");
 
 var db = require("./models");
 
-var PORT = 3000;
+
+var PORT = process.env.PORT || 3000;
 
 var app = express();
+
+
 
 app.use(logger("dev"));
 
@@ -17,6 +21,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(express.static("public"));
+
+var exphbs = require("express-handlebars");
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
@@ -42,6 +50,19 @@ app.get("/scrape", function(req, res) {
     });
     res.send("Scrape Complete");
   });
+});
+app.get("/", function(req, res) {
+  db.Article.find({})
+  .then(function(dbArticle){
+    console.log(dbArticle);
+    var hbsObject = {
+      article: dbArticle
+    }
+    res.render(__dirname + "/views/index.handlebars");
+  }).catch(function(err){
+    res.json(err);
+  })
+  
 });
 app.get("/articles", function(req, res) {
 
@@ -98,5 +119,5 @@ app.post("/articles/:id", function(req, res) {
     });
 });
 app.listen(PORT, function() {
-  console.log("App running on port " + PORT + "!");
+  console.log("App running on http//:localhost:" + PORT);
 });

@@ -1,7 +1,14 @@
 <div id="wrapper">
     <h1>Note Scraper</h1>
     <h2><i>Look at your notes below</i></h2>
+    <div>
     <div id="articles"></div>
+    <div id="articles">
+        {{#each article}}
+            <p>{{title}}</p>
+            <p>{{link}}</p>
+        {{/each}}
+    </div>
     <div id="notes"></div>
 </div>
 
