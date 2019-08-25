@@ -4,11 +4,13 @@
     <div>
     <div id="articles">
         {{#each article}}
-            <p data-id="{{_id}}">{{title}}</p>
-            <p data-id="{{_id}}">{{img}}</p>
-            <p data-id="{{_id}}">{{link}}</p>
+            <p data-id="{{_id}}">
+                {{title}}</p>
+            <p data-img-id="{{_id}}">
+                {{img}}</p>
+            <a href="{{link}}"></a>
         {{/each}}
     </div>
-    <div id="Comments"></div>
+    <div id="comments"></div>
 </div>
 
