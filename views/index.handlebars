@@ -6,9 +6,12 @@
         {{#each article}}
             <p data-id="{{_id}}">
                 {{title}}</p>
-            <p data-img-id="{{_id}}">
+            <p data-id="{{_id}}">
                 {{img}}</p>
             <a href="{{link}}"></a>
+            {{#if Comment}}
+            <button id="deletebutton" data-id = {{Comment}} type="submit">Delete</button>
+            {{/if}}
         {{/each}}
     </div>
     <div id="comments"></div>

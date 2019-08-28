@@ -90,7 +90,7 @@ app.get("/articles/:id", function(req, res) {
 
   db.Article.findOne({ _id: req.params.id })
 
-    .populate("comment")
+    .populate("Comment")
     .then(function(dbArticle) {
 
       res.json(dbArticle);
@@ -105,7 +105,7 @@ app.post("/articles/:id", function(req, res) {
   db.Comment.create(req.body)
     .then(function(dbComment) {
 
-      return db.Article.findOneAndUpdate({ _id: req.params.id }, { comment: dbComment._id }, { new: true });
+      return db.Article.findOneAndUpdate({ _id: req.params.id }, { Comment: dbComment._id }, { new: true });
     })
     .then(function(dbArticle) {
 
@@ -116,6 +116,19 @@ app.post("/articles/:id", function(req, res) {
       res.json(err);
     });
 });
+
+app.get("/delcomment/:id", function(req, res) {
+
+  db.Comment.deleteOne({_id: req.params.id})
+    .then(function(dbComment) {
+      res.send(dbComment);
+    });
+    db.Article.deleteOne({comment: req.params.id})
+    .then(function(dbArticle){
+      res.send(dbArticle);
+    })
+});
 app.listen(PORT, function() {
   console.log("App running on http//:localhost:" + PORT);
 });
+

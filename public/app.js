@@ -31,14 +31,17 @@ $(document).on("click", "p", function() {
       // A textarea to add a new comment body
       $("#comments").append("<textarea id='bodyinput' name='body'></textarea>");
       // A button to submit a new comment, with the id of the article saved to it
-      $("#comments").append("<button data-id='" + data._id + "' id='savecomment'>Save comment</button>");
+      $("#comments").append("<button data-id=" + data._id + " id='savecomment'>Save comment</button>");
+      console.log(data.Comment);
 
       // If there's a comment in the article
-      if (data.comment) {
+      if (data.Comment) {
+        console.log(data.Comment.title);
+        console.log(data.Comment.body);
         // Place the title of the comment in the title input
-        $("#titleinput").val(data.comment.title);
+        $("#titleinput").val(data.Comment.title);
         // Place the body of the comment in the body textarea
-        $("#bodyinput").val(data.comment.body);
+        $("#bodyinput").val(data.Comment.body);
       }
     });
 });
@@ -69,5 +72,21 @@ $(document).on("click", "#savecomment", function() {
   // Also, remove the values entered in the input and textarea for comment entry
   $("#titleinput").val("");
   $("#bodyinput").val("");
+});
+
+$(document).on("click", "#deletebutton", function() {
+  // Grab the id associated with the article from the submit button
+  var thisId = $(this).attr("data-id");
+
+  // Run a POST request to change the comment, using what's entered in the inputs
+  $.ajax({
+    method: "GET",
+    url: "delcomment/" + thisId,
+
+  }).then(function (data){
+    $("#titleinput").val("");
+    $("#bodyinput").val("");
+    location.reload();
+  });
 });
 });
